@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praise & Harmony Song Fest Check-in</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9fd',
+                            100: '#e0f3fa',
+                            200: '#bae6f5',
+                            300: '#7dd3ed',
+                            400: '#47c2f0', // Your requested color
+                            500: '#23a5d8',
+                            600: '#1485b8',
+                            700: '#106a95',
+                            800: '#11597a',
+                            900: '#124a66',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                        'pop-in': 'popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(-10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        popIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.9)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+    <link rel="shortcut icon" href="favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 min-h-screen flex items-center justify-center p-4 transition-colors duration-300 relative overflow-hidden font-sans">
+    
+    <!-- Background decorative elements -->
+    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-brand-400/20 dark:bg-brand-600/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-brand-300/20 dark:bg-brand-500/20 rounded-full blur-3xl"></div>
+
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" class="absolute top-6 right-6 p-3 rounded-full bg-white dark:bg-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 z-50 text-slate-600 dark:text-amber-400 focus:outline-none">
+        <svg id="theme-icon-light" class="w-6 h-6 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg id="theme-icon-dark" class="w-6 h-6 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+
+    <!-- Main Container -->
+    <div class="w-full max-w-lg relative z-10 perspective-1000">
+        
+        <!-- Check-in Card -->
+        <div id="checkin-card" class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200 dark:border-slate-700 rounded-3xl p-8 sm:p-10 shadow-2xl transition-all duration-500 transform">
+            
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <!-- Logo Placeholder: Replace the 'src' link with your actual logo URL -->
+                <img src="./logo.png" alt="Praise & Harmony Song Fest Logo" class="mx-auto h-16 w-auto mb-4 object-contain rounded-xl shadow-sm" onerror="this.src='https://placehold.co/200x80/47c2f0/ffffff?text=LOGO'">
+                <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">Praise & Harmony Song Fest</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-lg">Search your name to check-in</p>
+            </div>
+
+            <!-- Search & Interactive Area -->
+            <div class="space-y-6 relative">
+                <!-- Search Input -->
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="w-5 h-5 text-slate-400 group-focus-within:text-brand-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <input type="text" id="search-input" placeholder="Enter your full name..." autocomplete="off" disabled
+                        class="w-full pl-12 pr-4 py-4 rounded-xl bg-white/50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 dark:focus:ring-brand-400 transition-all shadow-inner text-lg">
+                </div>
+
+                <!-- Suggestions Grid Container -->
+                <div id="suggestions-container" class="hidden transition-all duration-300 opacity-0 translate-y-[-10px]">
+                    <div id="suggestions-list" class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-60 overflow-y-auto custom-scrollbar p-1">
+                        <!-- Card items generated by JS -->
+                    </div>
+                </div>
+
+                <!-- Guest Count Input (Hidden initially) -->
+                <div id="guest-count-container" class="hidden mt-6 transition-all duration-300 opacity-0 translate-y-[-10px]">
+                    <label for="guest-count" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 ml-1">Number of Guests (including yourself)</label>
+                    <input type="number" id="guest-count" min="1" max="10" value="1" 
+                        class="w-full px-4 py-4 rounded-xl bg-white/50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 dark:focus:ring-brand-400 transition-all shadow-inner text-lg font-bold">
+                </div>
+            </div>
+
+            <!-- CTA Button -->
+            <button id="checkin-btn" disabled
+                class="w-full mt-8 py-4 rounded-xl font-bold text-white text-lg bg-slate-300 dark:bg-slate-700 cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-2">
+                <span>Complete Check-In</span>
+                <svg class="w-5 h-5 hidden" id="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+            </button>
+            
+            <!-- Create New Guest Link -->
+            <a href="#" id="create-guest-link" class="block text-center mt-4 text-sm text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 underline-offset-2 hover:underline transition-colors">
+                Create new guest
+            </a>
+        </div>
+
+        <!-- Create Guest Card (Hidden by default) -->
+        <div id="create-card" class="hidden bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200 dark:border-slate-700 rounded-3xl p-8 sm:p-10 shadow-2xl text-left">
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6 text-center">Add New Guest</h2>
+            
+            <div class="space-y-4">
+                <div>
+                    <label for="new-fname" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1 ml-1">First Name</label>
+                    <input type="text" id="new-fname" placeholder="e.g. John" class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                </div>
+                <div>
+                    <label for="new-lname" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1 ml-1">Last Name</label>
+                    <input type="text" id="new-lname" placeholder="e.g. Doe" class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                </div>
+                <div>
+                    <label for="new-email" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1 ml-1">Email Address (Optional)</label>
+                    <input type="email" id="new-email" placeholder="e.g. john@example.com" class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                </div>
+                <div>
+                    <label for="new-gcount" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1 ml-1">Guest Count (including themselves)</label>
+                    <input type="number" id="new-gcount" min="1" max="10" value="1" class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all font-bold">
+                </div>
+            </div>
+
+            <div class="flex gap-4 mt-8">
+                <button id="cancel-create-btn" class="w-1/2 py-3 rounded-xl font-bold text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all">
+                    Cancel
+                </button>
+                <button id="submit-create-btn" class="w-1/2 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-brand-400 to-brand-600 hover:shadow-lg hover:shadow-brand-500/30 transition-all">
+                    Save Guest
+                </button>
+            </div>
+        </div>
+
+        <!-- Success Card (Hidden by default) -->
+        <div id="success-card" class="hidden bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200 dark:border-slate-700 rounded-3xl p-10 shadow-2xl text-center">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 text-green-500 mb-6">
+                <svg class="w-10 h-10 animate-[bounce_1s_ease-in-out_infinite]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">You're Checked In!</h2>
+            <p id="success-message" class="text-slate-600 dark:text-slate-300 text-lg mb-8 leading-relaxed">
+                <!-- Dynamically populated -->
+            </p>
+            <button id="reset-btn" class="w-full py-4 rounded-xl font-bold text-slate-700 dark:text-white border-2 border-slate-200 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300">
+                Check-in Another Guest
+            </button>
+        </div>
+
+        <!-- Create Guest Success Card (Hidden by default) -->
+        <div id="create-success-card" class="hidden bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200 dark:border-slate-700 rounded-3xl p-10 shadow-2xl text-center">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-brand-100 dark:bg-brand-900/30 text-brand-500 mb-6">
+                <svg class="w-10 h-10 animate-[bounce_1s_ease-in-out_infinite]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">Guest Created!</h2>
+            <p class="text-slate-600 dark:text-slate-300 text-lg mb-8 leading-relaxed">
+                The new guest has been successfully added to your list.
+            </p>
+            <button id="return-search-btn" class="w-full py-4 rounded-xl font-bold text-slate-700 dark:text-white border-2 border-slate-200 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300">
+                Back to Search
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- GOOGLE SHEETS SETUP ---
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzLS8wd8X5QLo64XAJs2uvPRvsXvqGj83slAUQSgHle_DRULZ1po2yNsLEX54mfUF_i/exec'; // Paste your deployed Web App URL here
+        
+        let db = []; // Start with an empty list
+
+        // Elements
+        const searchInput = document.getElementById('search-input');
+        const suggestionsContainer = document.getElementById('suggestions-container');
+        const suggestionsList = document.getElementById('suggestions-list');
+        const checkinBtn = document.getElementById('checkin-btn');
+        const btnIcon = document.getElementById('btn-icon');
+        const checkinCard = document.getElementById('checkin-card');
+        
+        // Success Elements
+        const successCard = document.getElementById('success-card');
+        const successMessage = document.getElementById('success-message');
+        const resetBtn = document.getElementById('reset-btn');
+        
+        // Form Elements
+        const guestCountContainer = document.getElementById('guest-count-container');
+        const guestCountInput = document.getElementById('guest-count');
+        
+        // Create Guest Elements
+        const createGuestLink = document.getElementById('create-guest-link');
+        const createCard = document.getElementById('create-card');
+        const cancelCreateBtn = document.getElementById('cancel-create-btn');
+        const submitCreateBtn = document.getElementById('submit-create-btn');
+        const newFnameInput = document.getElementById('new-fname');
+        const newLnameInput = document.getElementById('new-lname');
+        const newEmailInput = document.getElementById('new-email');
+        const newGcountInput = document.getElementById('new-gcount');
+        
+        const createSuccessCard = document.getElementById('create-success-card');
+        const returnSearchBtn = document.getElementById('return-search-btn');
+
+        let selectedUser = null;
+
+        // --- FETCH DATA FROM GOOGLE SHEETS ---
+        async function loadGuests() {
+            if (!SCRIPT_URL || SCRIPT_URL.trim() === '' || SCRIPT_URL.includes('YOUR_WEB_APP_URL_HERE')) {
+                db = [
+                    { id: 1, firstName: "Alice", lastName: "Johnson", checkedIn: false },
+                    { id: 2, firstName: "Bob", lastName: "Smith", checkedIn: false },
+                    { id: 3, firstName: "Charlie", lastName: "Brown", checkedIn: false },
+                    { id: 4, firstName: "Diana", lastName: "Prince", checkedIn: false }
+                ];
+                searchInput.placeholder = "Enter your full name...";
+                searchInput.disabled = false;
+                return;
+            }
+
+            try {
+                searchInput.placeholder = "Loading guest list...";
+                const response = await fetch(SCRIPT_URL);
+                if (!response.ok) throw new Error("Network response was not ok");
+                db = await response.json();
+                
+                searchInput.placeholder = "Enter your full name...";
+                searchInput.disabled = false;
+            } catch (error) {
+                console.error("Error loading guests:", error);
+                searchInput.placeholder = "Error loading data. Please refresh.";
+            }
+        }
+
+        loadGuests();
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+            } else {
+                htmlElement.classList.add('dark');
+            }
+        });
+
+        // Handle typing in the search bar
+        searchInput.addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            selectedUser = null; 
+            disableBtn();
+            hideGuestCount();
+
+            if (query.length === 0) {
+                hideSuggestions();
+                return;
+            }
+
+            // Exclude people who are already checked in
+            const filtered = db.filter(person => 
+                !person.checkedIn && 
+                (person.firstName.toLowerCase().includes(query) || 
+                 person.lastName.toLowerCase().includes(query))
+            ).slice(0, 6); // Limit results to 6 mini cards
+
+            renderSuggestions(filtered);
+        });
+
+        function renderSuggestions(results) {
+            suggestionsList.innerHTML = '';
+            
+            if (results.length === 0) {
+                hideSuggestions();
+                return;
+            }
+
+            results.forEach(guest => {
+                const fullName = `${guest.firstName} ${guest.lastName}`;
+                
+                const card = document.createElement('div');
+                card.className = `guest-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 
+                                  rounded-xl p-4 cursor-pointer shadow-md hover:shadow-xl hover:scale-[1.02] 
+                                  transition-all duration-200 flex flex-col justify-center items-center text-center select-none`;
+                card.innerHTML = `
+                    <div class="font-bold text-lg text-slate-800 dark:text-slate-100">${guest.firstName}</div>
+                    <div class="font-bold text-lg text-slate-800 dark:text-slate-100">${guest.lastName}</div>
+                `;
+
+                card.addEventListener('click', () => selectGuest(guest, fullName, card));
+                suggestionsList.appendChild(card);
+            });
+
+            showSuggestions();
+        }
+
+        // Animation Helpers
+        function showSuggestions() {
+            suggestionsContainer.classList.remove('hidden');
+            setTimeout(() => {
+                suggestionsContainer.classList.remove('opacity-0', 'translate-y-[-10px]');
+                suggestionsContainer.classList.add('opacity-100', 'translate-y-0');
+            }, 10);
+        }
+
+        function hideSuggestions() {
+            suggestionsContainer.classList.add('opacity-0', 'translate-y-[-10px]');
+            suggestionsContainer.classList.remove('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                suggestionsContainer.classList.add('hidden');
+            }, 300);
+        }
+
+        function showGuestCount() {
+            guestCountContainer.classList.remove('hidden');
+            setTimeout(() => {
+                guestCountContainer.classList.remove('opacity-0', 'translate-y-[-10px]');
+                guestCountContainer.classList.add('opacity-100', 'translate-y-0');
+            }, 10);
+        }
+
+        function hideGuestCount() {
+            guestCountContainer.classList.add('opacity-0', 'translate-y-[-10px]');
+            guestCountContainer.classList.remove('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                guestCountContainer.classList.add('hidden');
+            }, 300);
+        }
+
+        // Handle Selection
+        function selectGuest(guest, fullName, cardElement) {
+            selectedUser = guest;
+            
+            // Populate the search box with the clicked name
+            searchInput.value = fullName;
+
+            // Hide all other cards in the grid
+            Array.from(suggestionsList.children).forEach(child => {
+                if (child !== cardElement) {
+                    child.style.display = 'none';
+                }
+            });
+            
+            // Remove selection styles from all cards (safety cleanup)
+            document.querySelectorAll('.guest-card').forEach(card => {
+                card.classList.remove('border-brand-500', 'bg-brand-50', 'dark:bg-brand-900/40', 'dark:border-brand-400', 'scale-[1.02]', 'shadow-lg', 'shadow-brand-200', 'dark:shadow-brand-900/30');
+            });
+            
+            // Add vibrant selection styles to the clicked card
+            cardElement.classList.remove('border-slate-200', 'dark:border-slate-700', 'bg-white', 'dark:bg-slate-800');
+            cardElement.classList.add('border-brand-500', 'bg-brand-50', 'dark:bg-brand-900/40', 'dark:border-brand-400', 'scale-[1.02]', 'shadow-lg', 'shadow-brand-200', 'dark:shadow-brand-900/30');
+            
+            showGuestCount();
+            enableBtn();
+        }
+
+        // Button State Handlers
+        function enableBtn() {
+            checkinBtn.removeAttribute('disabled');
+            checkinBtn.classList.remove('bg-slate-300', 'dark:bg-slate-700', 'cursor-not-allowed');
+            checkinBtn.classList.add('bg-gradient-to-r', 'from-brand-400', 'to-brand-600', 'hover:shadow-lg', 'hover:shadow-brand-500/30', 'hover:-translate-y-1');
+            btnIcon.classList.remove('hidden');
+        }
+
+        function disableBtn() {
+            checkinBtn.setAttribute('disabled', 'true');
+            checkinBtn.classList.add('bg-slate-300', 'dark:bg-slate-700', 'cursor-not-allowed');
+            checkinBtn.classList.remove('bg-gradient-to-r', 'from-brand-400', 'to-brand-600', 'hover:shadow-lg', 'hover:shadow-brand-500/30', 'hover:-translate-y-1');
+            btnIcon.classList.add('hidden');
+        }
+
+        // Handle Check-in Click
+        checkinBtn.addEventListener('click', async function() {
+            if (!selectedUser) return;
+
+            const guestCount = parseInt(guestCountInput.value) || 1;
+            const extraGuests = guestCount - 1;
+            const guestText = extraGuests > 0 ? ` + ${extraGuests} guest${extraGuests > 1 ? 's' : ''}` : '';
+
+            // Loading state
+            const originalBtnText = checkinBtn.innerHTML;
+            checkinBtn.innerHTML = `
+                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span class="ml-2">Checking in...</span>
+            `;
+            checkinBtn.disabled = true;
+
+            // Send POST request to Google Sheets if configured
+            if (SCRIPT_URL && SCRIPT_URL.trim() !== '' && !SCRIPT_URL.includes('YOUR_WEB_APP_URL_HERE')) {
+                try {
+                    await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            action: 'checkin',
+                            id: selectedUser.id,
+                            guestCount: guestCount
+                        }),
+                        headers: {
+                            'Content-Type': 'text/plain;charset=utf-8',
+                        }
+                    });
+                } catch (error) {
+                    console.error("Error updating Google Sheet:", error);
+                }
+            }
+
+            // Remove user from future searches
+            selectedUser.checkedIn = true;
+            
+            // Reset Button UI
+            checkinBtn.innerHTML = originalBtnText;
+            checkinCard.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+            
+            setTimeout(() => {
+                checkinCard.classList.add('hidden');
+                successCard.classList.remove('hidden');
+                successCard.classList.add('animate-pop-in');
+                successMessage.innerHTML = `Welcome to Praise & Harmony Song Fest, <strong class="text-slate-900 dark:text-white">${selectedUser.firstName} ${selectedUser.lastName}</strong>${guestText}! Have a great time.`;
+            }, 300);
+        });
+
+        // --- CREATE GUEST LOGIC ---
+
+        // Show Create Form
+        createGuestLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            checkinCard.classList.add('hidden');
+            createCard.classList.remove('hidden');
+            createCard.classList.add('animate-pop-in');
+        });
+
+        // Hide Create Form (Cancel)
+        cancelCreateBtn.addEventListener('click', () => {
+            createCard.classList.add('hidden');
+            createCard.classList.remove('animate-pop-in');
+            checkinCard.classList.remove('hidden');
+            
+            // Clear inputs
+            newFnameInput.value = '';
+            newLnameInput.value = '';
+            newEmailInput.value = '';
+            newGcountInput.value = '1';
+        });
+
+        // Submit New Guest
+        submitCreateBtn.addEventListener('click', async () => {
+            const fname = newFnameInput.value.trim();
+            const lname = newLnameInput.value.trim();
+            const email = newEmailInput.value.trim();
+            const gcount = parseInt(newGcountInput.value) || 1;
+
+            if (!fname || !lname) {
+                alert("Please enter both a first and last name.");
+                return;
+            }
+
+            // Generate a unique ID for the new guest
+            const newId = 'G-' + Date.now();
+
+            const newGuest = {
+                id: newId,
+                firstName: fname,
+                lastName: lname,
+                email: email,
+                checkedIn: false,
+                guestCount: gcount
+            };
+
+            // Loading state
+            const originalText = submitCreateBtn.innerHTML;
+            submitCreateBtn.innerHTML = "Saving...";
+            submitCreateBtn.disabled = true;
+
+            // Send Create Request to Google Sheets
+            if (SCRIPT_URL && SCRIPT_URL.trim() !== '' && !SCRIPT_URL.includes('YOUR_WEB_APP_URL_HERE')) {
+                try {
+                    await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            action: 'create',
+                            ...newGuest
+                        }),
+                        headers: {
+                            'Content-Type': 'text/plain;charset=utf-8',
+                        }
+                    });
+                } catch (error) {
+                    console.error("Error creating guest in Sheet:", error);
+                }
+            }
+
+            // Add to local list so they can be searched immediately
+            db.push(newGuest);
+
+            // Reset UI Inputs
+            submitCreateBtn.innerHTML = originalText;
+            submitCreateBtn.disabled = false;
+            newFnameInput.value = '';
+            newLnameInput.value = '';
+            newEmailInput.value = '';
+            newGcountInput.value = '1';
+
+            // Show Create Success Screen
+            createCard.classList.add('hidden');
+            createCard.classList.remove('animate-pop-in');
+            
+            createSuccessCard.classList.remove('hidden');
+            createSuccessCard.classList.add('animate-pop-in');
+        });
+
+        // Return to Search from Create Success
+        returnSearchBtn.addEventListener('click', () => {
+            createSuccessCard.classList.add('hidden');
+            createSuccessCard.classList.remove('animate-pop-in');
+            
+            checkinCard.classList.remove('hidden');
+            checkinCard.classList.add('animate-pop-in');
+            
+            // Clear the search box completely 
+            searchInput.value = '';
+            searchInput.dispatchEvent(new Event('input'));
+        });
+
+        // Handle Reset (After Check-in)
+        resetBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            selectedUser = null;
+            guestCountInput.value = '1';
+            disableBtn();
+            hideSuggestions();
+            hideGuestCount();
+
+            successCard.classList.add('hidden');
+            successCard.classList.remove('animate-pop-in');
+            
+            checkinCard.classList.remove('hidden');
+            setTimeout(() => {
+                checkinCard.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+            }, 10);
+        });
+    </script>
+</body>
+</html>
