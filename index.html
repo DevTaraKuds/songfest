@@ -273,7 +273,37 @@
         }
 
         loadGuests();
+        // --- SILENT WAKE UP SYNC ---
+async function silentSync() {
+    // Only attempt sync if we have a real URL setup
+    if (SCRIPT_URL && SCRIPT_URL.trim() !== '' && !SCRIPT_URL.includes('YOUR_WEB_APP_URL_HERE')) {
+        try {
+            const response = await fetch(SCRIPT_URL);
+            if (response.ok) {
+                db = await response.json(); // Silently overwrite the local list with fresh data
+                
+                // If they are currently typing, automatically refresh the search results on screen
+                if (searchInput.value.trim().length > 0 && !selectedUser) {
+                    searchInput.dispatchEvent(new Event('input'));
+                }
+            }
+        } catch (error) {
+            console.log("Wake up sync skipped.");
+        }
+    }
+}
 
+// Trigger sync when user returns to the tab or turns the device screen on
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+        silentSync();
+    }
+});
+
+// Extra safety net: trigger sync when the window regains focus
+window.addEventListener('focus', () => {
+    silentSync();
+});
         // Theme Toggle Logic
         const themeToggle = document.getElementById('theme-toggle');
         const htmlElement = document.documentElement;
