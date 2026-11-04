@@ -423,45 +423,16 @@
         }
 
         // Handle Check-in Click
-        checkinBtn.addEventListener('click', async function() {
+        checkinBtn.addEventListener('click', function() {
             if (!selectedUser) return;
 
             const afterpartyValue = afterpartySelectInput.value;
             const afterpartyText = afterpartyValue === 'Yes' ? ` (See you at the Afterparty!)` : '';
 
-            // Loading state
-            const originalBtnText = checkinBtn.innerHTML;
-            checkinBtn.innerHTML = `
-                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                <span class="ml-2">Checking in...</span>
-            `;
-            checkinBtn.disabled = true;
-
-            // Send POST request to Google Sheets if configured
-            if (SCRIPT_URL && SCRIPT_URL.trim() !== '' && !SCRIPT_URL.includes('YOUR_WEB_APP_URL_HERE')) {
-                try {
-                    await fetch(SCRIPT_URL, {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            action: 'checkin',
-                            id: selectedUser.id,
-                            afterpartySelect: afterpartyValue // Send the text value to the database
-                        }),
-                        headers: {
-                            'Content-Type': 'text/plain;charset=utf-8',
-                        }
-                    });
-                } catch (error) {
-                    console.error("Error updating Google Sheet:", error);
-                }
-            }
-
+            // 1. Immediately update the local list so they don't show up in search again
             selectedUser.checkedIn = true;
             
-            checkinBtn.innerHTML = originalBtnText;
+            // 2. Instantly transition to the success screen (No loading spinner needed!)
             checkinCard.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
             
             setTimeout(() => {
@@ -470,6 +441,23 @@
                 successCard.classList.add('animate-pop-in');
                 successMessage.innerHTML = `Welcome to GovCamp Cymru 2026, <strong class="text-slate-900 dark:text-white">${selectedUser.firstName} ${selectedUser.lastName}</strong>${afterpartyText}! Have a great time.`;
             }, 300);
+
+            // 3. Send POST request to Google Sheets silently in the background (Notice the 'await' is gone)
+            if (SCRIPT_URL && SCRIPT_URL.trim() !== '' && !SCRIPT_URL.includes('YOUR_WEB_APP_URL_HERE')) {
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'checkin',
+                        id: selectedUser.id,
+                        afterpartySelect: afterpartyValue 
+                    }),
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
+                    }
+                }).catch(error => {
+                    console.error("Background sync failed for check-in:", error);
+                });
+            }
         });
 
         // --- CREATE GUEST LOGIC ---
